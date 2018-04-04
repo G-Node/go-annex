@@ -6,7 +6,6 @@ import (
 	"strings"
 	"io"
 	"fmt"
-	"log"
 	"regexp"
 )
 
@@ -29,11 +28,9 @@ func NewAFile(annexpath, repopath, Ofilename string, APFileC []byte) (*AFile, er
 	// see https://regexper.com/#%5B%5C%5C%5C%2F%5Dannex%5B%5C%5C%5C%2F%5D(%5B%5E%5C.%5D%2B(%5C.%5Cw%2B))%3F
 	aFPattern := regexp.MustCompile(`[\\\/]annex[\\\/](.+)`)
 	matches := aFPattern.FindStringSubmatch(string(APFileC))
-	log.Printf("matched: %v", matches)
 	if matches != nil && len(matches) > 1 {
 		filepath := strings.Replace(matches[1], "\\", "/", 0)
 		filepath = fmt.Sprintf("%s/annex/%s", repopath, filepath)
-		log.Printf("Filepath: %s", filepath)
 		info, err := os.Stat(filepath)
 		if err == nil {
 			nAF.Filepath = filepath
@@ -47,7 +44,6 @@ func NewAFile(annexpath, repopath, Ofilename string, APFileC []byte) (*AFile, er
 	// lets find the annex file
 	filepath.Walk(filepath.Join(annexpath, repopath), func(path string, info os.FileInfo, err error) error {
 		if err != nil {
-			log.Printf("%v", err)
 			return filepath.SkipDir
 		}
 		if info.IsDir() {
