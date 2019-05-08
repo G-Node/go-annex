@@ -41,3 +41,8 @@ func Add(filename, dir string) (string, error) {
 	cmd := git.NewACommand("add", filename)
 	return cmd.RunInDir(dir)
 }
+
+func SetAddUnlocked(dir string) (string, error) {
+	cmd := git.NewCommand("config", "annex.addunlocked", "true")
+	return cmd.RunInDir(dir)
+}
