@@ -37,8 +37,9 @@ func ASync(dir string, args ...string) (string, error) {
 	return cmd.AddArguments(args...).RunInDir(dir)
 }
 
-func Add(filename, dir string) (string, error) {
-	cmd := git.NewACommand("add", filename)
+func Add(dir string, args ...string) (string, error) {
+	cmd := git.NewACommand("add")
+	cmd.AddArguments(args...)
 	return cmd.RunInDir(dir)
 }
 
